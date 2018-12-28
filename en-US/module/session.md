@@ -32,8 +32,12 @@ Then initialize a global variable as the session manager:
 Then initialize data in your main function:
 
 	func init() {
-		globalSessions, _ = session.NewManager("memory", `{"cookieName":"gosessionid", "enableSetCookie,omitempty": true, "gclifetime":3600, "maxLifetime": 3600, "secure": false, "sessionIDHashFunc": "sha1", "sessionIDHashKey": "", "cookieLifeTime": 3600, "providerConfig": ""}`)
-		go globalSessions.GC()
+		sessionConfig := &session.ManagerConfig{
+		CookieName: "gosessionid",
+		Gclifetime: 3600,
+	}
+	globalSessions, _ = session.NewManager("memory", sessionConfig)
+	go globalSessions.GC()
 	}
 
 Parameters of NewManager:
